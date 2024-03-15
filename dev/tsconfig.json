@@ -10,12 +10,15 @@
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "./dev/dist",
+    "rootDir": "../",
     "jsx": "react",
     "paths": {
       "payload/generated-types": [
-        "./src/payload-types.ts"
+        "./dev/src/payload-types.ts"
+      ],
+      "payload-plugin-lexical-field-hooks": [
+        "../src/index"
       ]
     }
   },
