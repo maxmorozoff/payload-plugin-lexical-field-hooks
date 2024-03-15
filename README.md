@@ -87,7 +87,7 @@ You may wish to add collections or expand the test project depending on the purp
 
 When you’re ready to start development, navigate into this folder with `cd dev`
 
-And then start the project with `yarn dev` and pull up [http://localhost:3000/](http://localhost:3000/) in your browser.
+And then start the project with `pnpm dev` and pull up [http://localhost:3000/](http://localhost:3000/) in your browser.
 
 #### Src
 
