@@ -1,3 +1,8 @@
+// @ts-check
+
+/**
+ * @type {import('prettier').Config}
+ */
 module.exports = {
   printWidth: 100,
   parser: "typescript",
