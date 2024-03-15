@@ -4,7 +4,7 @@ import Users from './collections/Users';
 import Examples from './collections/Examples';
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
-import { slateEditor } from '@payloadcms/richtext-slate'
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { samplePlugin } from '../../src/index'
 
 export default buildConfig({
@@ -27,7 +27,7 @@ export default buildConfig({
       return newConfig
     },
   },
-  editor: slateEditor({}),
+  editor: lexicalEditor({}),
   collections: [
     Examples, Users,
   ],
