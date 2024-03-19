@@ -5,7 +5,8 @@ import { start } from './src/server'
 
 import type { Page, ArchiveBlockType } from './src/payload-types'
 
-const isPluginEnabled = process.env.PAYLOAD_IS_PLUGIN_ENABLED === 'true'
+const isPluginEnabled =
+  !process.env.PAYLOAD_IS_PLUGIN_ENABLED || process.env.PAYLOAD_IS_PLUGIN_ENABLED === 'true'
 
 describe(`Tests ${isPluginEnabled ? 'with' : 'without'} plugin`, () => {
   // let server: Server
