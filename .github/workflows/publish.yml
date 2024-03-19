@@ -28,14 +28,32 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
         cache: 'pnpm'
 
-    - name: Install dependencies
-      run: pnpm install
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+          ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
 
-    - name: Copy env file
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+    
+    - name: Lint
+      run: pnpm lint
+
+    - name: Build
+      run: pnpm build
+
+    - name: Copy env file in ./dev/
       run: cp dev/.env.example dev/.env
 
-    - name: Build & Test
-      run: pnpm prerelease
+    - name: Prepare Test Dependencies
+      run: cd dev && pnpm install --frozen-lockfile
+
+    - name: Test
+      run: pnpm test
 
     - name: Create Release Pull Request or Publish to registry
       id: changesets
