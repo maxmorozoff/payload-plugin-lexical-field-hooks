@@ -31,7 +31,9 @@ jobs:
     - uses: actions/cache@v3
       name: Setup pnpm cache
       with:
-        path: ${{ env.STORE_PATH }}
+        path: |
+          node_modules
+          dev/node_modules
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
