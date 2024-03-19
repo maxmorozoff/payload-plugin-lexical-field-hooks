@@ -15,6 +15,7 @@
     "declaration": true,
     "declarationDir": "./dist",
     "skipLibCheck": true,
+    "noEmit": true,
     "strict": true,
   },
   "include": [

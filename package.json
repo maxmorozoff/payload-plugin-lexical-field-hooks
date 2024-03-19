@@ -5,6 +5,7 @@
   "repository": "git@github.com:maxmorozoff/payload-plugin-lexical-field-hooks.git",
   "description": "A plugin for Payload that resolves issues with richtext-lexical field-level hooks",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "/dist"
@@ -19,7 +20,7 @@
     "template"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsup src/index.ts --dts --format cjs,esm --sourcemap",
     "test": "cd dev && pnpm test",
     "lint": "eslint src",
     "lint:fix": "eslint --fix --ext .ts,.tsx src",
@@ -47,6 +48,7 @@
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "rimraf": "^5.0.5",
+    "tsup": "^8.0.2",
     "typescript": "^5.4.2",
     "webpack": "^5.90.3"
   }
