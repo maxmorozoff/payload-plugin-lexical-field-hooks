@@ -1,11 +1,18 @@
-import { buildConfig } from 'payload/config';
-import path from 'path';
-import Users from './collections/Users';
-import Examples from './collections/Examples';
+import path from 'path'
+
+import { buildConfig } from 'payload/config'
+import { Pages } from './collections/Pages'
+import { Users } from './collections/Users'
+import { Examples } from './collections/Examples'
+import { Media } from './collections/Media'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
-import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { samplePlugin } from '../../src/index'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+
+import lexicalFieldHooks from '../../src'
+// import lexicalFieldHooks from 'payload-plugin-lexical-field-hooks'
+
+console.log('PAYLOAD_IS_PLUGIN_ENABLED:', process.env.PAYLOAD_IS_PLUGIN_ENABLED)
 
 export default buildConfig({
   admin: {
@@ -29,7 +36,11 @@ export default buildConfig({
   },
   editor: lexicalEditor({}),
   collections: [
-    Examples, Users,
+    //
+    Pages,
+    Examples,
+    Users,
+    Media,
   ],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
@@ -37,7 +48,7 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
-  plugins: [samplePlugin({ enabled: true })],
+  plugins: [lexicalFieldHooks({ enabled: process.env.PAYLOAD_IS_PLUGIN_ENABLED !== 'false' })],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),

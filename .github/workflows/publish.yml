@@ -1,0 +1,46 @@
+name: Publish package to GitHub Packages
+# https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+on:
+  push: 
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [18]
+    services:
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://npm.pkg.github.com'
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Copy env file
+      run: cp dev/.env.example dev/.env
+
+    - name: Build & Test
+      run: pnpm prerelease
+
+    - name: Create Release Pull Request or Publish to registry
+      id: changesets
+      uses: changesets/action@v1
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

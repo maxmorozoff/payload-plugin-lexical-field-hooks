@@ -1,6 +1,7 @@
 import express from 'express'
 import payload from 'payload'
 import { InitOptions } from 'payload/config'
+import { seed } from './seed'
 
 require('dotenv').config()
 const app = express()
@@ -10,20 +11,31 @@ app.get('/', (_, res) => {
   res.redirect('/admin')
 })
 
-export const start = async (args?: Partial<InitOptions>) => {
+type Start = Partial<InitOptions> & {
+  seedPayload?: boolean
+}
+
+export const start = async ({ seedPayload, ...args }: Start = {}) => {
   // Initialize Payload
   await payload.init({
     secret: process.env.PAYLOAD_SECRET,
     express: app,
     onInit: async () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
+      if (seedPayload || process.env.PAYLOAD_SEED === 'true') {
+        await seed(payload)
+      }
     },
     ...(args || {}),
   })
 
   // Add your own express routes here
 
-  app.listen(3000)
+  return app.listen(3000)
 }
 
-start()
+if (!areWeTestingWithJest()) start()
+
+export function areWeTestingWithJest() {
+  return process.env.JEST_WORKER_ID !== undefined
+}

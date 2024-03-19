@@ -16,9 +16,6 @@
     "paths": {
       "payload/generated-types": [
         "./dev/src/payload-types.ts"
-      ],
-      "payload-plugin-lexical-field-hooks": [
-        "../src/index"
       ]
     }
   },
