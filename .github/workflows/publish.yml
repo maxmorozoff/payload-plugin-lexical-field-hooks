@@ -6,9 +6,19 @@ on:
     branches: 
       - main
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+permissions: {} #reset
+
+env:
+  CI: true
+
 jobs:
-  build:
+  release:
     runs-on: ubuntu-20.04
+    permissions:
+      contents: write # to create release (changesets/action)
+      pull-requests: write # to create pull request (changesets/action)
+      packages: write # to publish to github packages (changesets/action)
     strategy:
       matrix:
         node-version: [18]
@@ -58,8 +68,12 @@ jobs:
       run: pnpm test
 
     - name: Create Release Pull Request or Publish to registry
+      # IMPORTANT: prevent this action from running on forks
+      if: github.repository == 'maxmorozoff/payload-plugin-lexical-field-hooks'
       id: changesets
       uses: changesets/action@v1
+      with:
+        publish: pnpm ci:publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
