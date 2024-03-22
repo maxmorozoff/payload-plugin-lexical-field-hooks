@@ -1,0 +1,17 @@
+.tmp
+**/.git
+**/.hg
+**/.pnp.*
+**/.svn
+**/.yarn/**
+**/build
+**/dist/**
+**/node_modules
+**/temp
+**/pnpm-lock.yaml
+**/.next/**
+**/.bundle-analyze/**
+**/.gitignore
+**/*.json
+**/*.md
+dev/src/payload-types.ts
