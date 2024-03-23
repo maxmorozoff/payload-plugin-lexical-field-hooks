@@ -1,5 +1,11 @@
 # @maxmorozoff/payload-plugin-lexical-field-hooks
 
+## 0.0.4
+
+### Patch Changes
+
+- 5f96030: Feat/plugin config
+
 ## 0.0.3
 
 ### Patch Changes

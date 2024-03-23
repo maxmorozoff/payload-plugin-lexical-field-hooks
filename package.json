@@ -1,6 +1,6 @@
 {
   "name": "@maxmorozoff/payload-plugin-lexical-field-hooks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage:": "https://github.com/maxmorozoff/payload-plugin-lexical-field-hooks",
   "repository": "git@github.com:maxmorozoff/payload-plugin-lexical-field-hooks.git",
   "description": "A plugin for Payload that resolves issues with richtext-lexical field-level hooks",
