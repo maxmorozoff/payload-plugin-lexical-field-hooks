@@ -19,7 +19,7 @@ export function fieldHooksWrapper(
   if (!(namedHooks && Array.isArray(namedHooks))) return
 
   const wrappedNamedHooks = namedHooks
-    .filter((_, i) => hookFilter({ hookIndex: i, blockType, field, hookName }))
+    .filter((_, i) => hookFilter({ blockType, field, hookIndex: i, hookName }))
     .map(hookWrapper(field, blockType, hookName))
 
   if (!wrappedNamedHooks?.length) return

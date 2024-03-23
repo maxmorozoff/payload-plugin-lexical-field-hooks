@@ -15,8 +15,8 @@ const lexicalFixFieldHooksPlugin =
     const {
       collectionsFilter = () => true,
       globalsFilter = () => true,
-      richTextFieldFilter = () => true,
       hooksFilter = () => true,
+      richTextFieldFilter = () => true,
     } = pluginConfig
 
     return {

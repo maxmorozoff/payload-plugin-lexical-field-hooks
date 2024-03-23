@@ -1,4 +1,3 @@
-import { type LexicalRichTextAdapter } from '@payloadcms/richtext-lexical'
 import type {
   CollectionConfig,
   FieldAffectingData,
@@ -6,7 +5,13 @@ import type {
   RichTextField,
 } from 'payload/types'
 
+import { type LexicalRichTextAdapter } from '@payloadcms/richtext-lexical'
+
 export type PluginConfig = {
+  /**
+   * @default () => true
+   */
+  collectionsFilter?: (args: { collection: CollectionConfig }) => boolean
   /**
    * Enable or disable plugin
    * @default true
@@ -15,24 +20,20 @@ export type PluginConfig = {
   /**
    * @default () => true
    */
-  collectionsFilter?: (args: { collection: CollectionConfig }) => boolean
-  /**
-   * @default () => true
-   */
   globalsFilter?: (args: { global: GlobalConfig }) => boolean
   /**
    * @default () => true
    */
-  richTextFieldFilter?: (args: { field: RichTextField }) => boolean
-  /**
-   * @default () => true
-   */
   hooksFilter?: (args: {
-    hookName: FieldHookName
     blockType: string
     field: FieldAffectingData
     hookIndex: number
+    hookName: FieldHookName
   }) => boolean
+  /**
+   * @default () => true
+   */
+  richTextFieldFilter?: (args: { field: RichTextField }) => boolean
 }
 
 export type LexicalRichTextField = Omit<RichTextField, 'editor'> & {
