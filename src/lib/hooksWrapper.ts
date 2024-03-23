@@ -2,7 +2,7 @@ import type { SerializedBlockNode } from '@payloadcms/richtext-lexical'
 import type { SerializedLexicalNode } from 'lexical'
 import type { FieldAffectingData, FieldHook } from 'payload/types'
 
-import type { FieldHookName, FieldHooks } from '../types'
+import type { FieldHookName, FieldHooks, PluginConfig } from '../types'
 
 import { deepChange } from './deepChange'
 import { ensureKeyExists } from './utils'
@@ -13,18 +13,23 @@ export function fieldHooksWrapper(
   field: FieldAffectingData,
   blockType: string,
   wrappedHooks: FieldHooks,
+  hookFilter: NonNullable<PluginConfig['hooksFilter']>,
 ) {
   const namedHooks = hooks[hookName]
   if (!(namedHooks && Array.isArray(namedHooks))) return
 
-  const wrappedNamedHooks = namedHooks.map(hookWrapper(field, blockType))
+  const wrappedNamedHooks = namedHooks
+    .filter((_, i) => hookFilter({ hookIndex: i, blockType, field, hookName }))
+    .map(hookWrapper(field, blockType, hookName))
+
+  if (!wrappedNamedHooks?.length) return
 
   ensureKeyExists(wrappedHooks, hookName, [])
 
   wrappedHooks[hookName].push(...wrappedNamedHooks)
 }
 
-function hookWrapper(field: FieldAffectingData, blockType: string) {
+function hookWrapper(field: FieldAffectingData, blockType: string, hookName: FieldHookName) {
   return (hook: FieldHook<any, any, any>): FieldHook<any, any, any> =>
     async ({ value, ...opts }) => {
       const richTextChildren = value?.root?.children as SerializedLexicalNode[]

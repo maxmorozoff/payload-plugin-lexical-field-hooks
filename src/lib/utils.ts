@@ -16,7 +16,7 @@ export function ensureKeyExists<T extends object, K extends keyof T>(
   defaultValue: NonNullable<T[K]>,
 ): asserts object is T & Record<K, NonNullable<T[K]>> {
   if (!object) throw new Error('Object does not exist')
-  if (!hasOwnNonNullableProperty(object, key)) object[key] = defaultValue 
+  if (!hasOwnNonNullableProperty(object, key)) object[key] = defaultValue
 }
 
 /**
